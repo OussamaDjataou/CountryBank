@@ -1,12 +1,13 @@
 pipeline {
     agent any
+    tools {
+        jdk 'jdk17'
+    }
+    environment {
+        SONAR_HOME= tool 'sonar-scanner'
+    }
 
     stages {
-        stage('Git Checkout') {
-            steps {
-                git 'https://github.com/jaiswaladi246/CountryBank.git'
-            }
-        }
         
         stage('OWASP Dependency Check') {
             steps {
@@ -18,6 +19,13 @@ pipeline {
         stage('Trivy') {
             steps {
                  sh "trivy fs ."
+            }
+        }
+        stage('SONARQUBE ANALYSIS') {
+            steps {
+                withSonarQubeEnv('sonar') {
+                    sh " $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=CountryBank -Dsonar.projectKey=CountryBank "
+                }
             }
         }
         
