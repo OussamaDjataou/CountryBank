@@ -18,15 +18,6 @@ pipeline {
             }
         }
 
-        stage('Build'){
-            steps {
-                dir("/var/lib/jenkins/workspace/pipeline2/src/main/java/com/cbank"){
-                    sh '''javac  CountryBankApplication.java
-                    java CountryBankApplication
-                    '''
-                }
-            }
-        }
         
          stage('Build & deploy') {
             steps {
