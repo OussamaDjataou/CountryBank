@@ -3,10 +3,6 @@ pipeline {
     tools {
         jdk 'jdk17'
     }
-    environment {
-        SCANNER_HOME= tool 'sonar-scanner'
-    }
-
     stages {
         
         stage('OWASP Dependency Check') {
@@ -28,13 +24,6 @@ pipeline {
                     sh '''javac  CountryBankApplication.java
                     java CountryBankApplication
                     '''
-                }
-            }
-        }
-        stage('SONARQUBE ANALYSIS') {
-            steps {
-                withSonarQubeEnv('sonar') {
-                    sh " $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=CountryBank -Dsonar.projectKey=CountryBank "
                 }
             }
         }
