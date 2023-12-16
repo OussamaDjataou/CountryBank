@@ -21,6 +21,16 @@ pipeline {
                  sh "trivy fs ."
             }
         }
+
+        stage('Build'){
+            steps {
+                dir("/var/lib/jenkins/workspace/pipeline2/src/main/java/com/cbank"){
+                    sh '''javac  CountryBankApplication.java
+                    java CountryBankApplication
+                    '''
+                }
+            }
+        }
         stage('SONARQUBE ANALYSIS') {
             steps {
                 withSonarQubeEnv('sonar') {
