@@ -22,7 +22,7 @@ pipeline {
         }
          stage('Sonarqube') {
             steps {
-                withSonarQubeEnv('sonar-server'){
+                withSonarQubeEnv('sonar'){
                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=countrybank \
                    -Dsonar.java.binaries=. \
                    -Dsonar.projectKey=countrybank '''
