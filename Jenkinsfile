@@ -3,6 +3,9 @@ pipeline {
     tools {
         jdk 'jdk17'
     }
+    environment {
+        $SCANNER_HOME= tool 'sonar-scanner'
+    }
     stages {
         
         stage('OWASP Dependency Check') {
@@ -15,6 +18,15 @@ pipeline {
         stage('Trivy') {
             steps {
                  sh "trivy fs ."
+            }
+        }
+         stage('Sonarqube') {
+            steps {
+                withSonarQubeEnv('sonar-server'){
+                   sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=countrybank \
+                   -Dsonar.java.binaries=. \
+                   -Dsonar.projectKey=countrybank '''
+               }
             }
         }
 
